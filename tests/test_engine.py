@@ -236,3 +236,14 @@ def test_drop_unfinished_day_only_during_market_hours():
     assert idx.index[-1] == pd.Timestamp("2026-11-02") and len(prices["A"]) == 1
     idx, _ = drop_unfinished_day(df, {"A": df}, now=datetime(2026, 11, 3, 17, 10, tzinfo=IST))
     assert idx.index[-1] == pd.Timestamp("2026-11-03")
+
+
+def test_no_half_variant_and_disabled_time_stop():
+    sw = {**SW, "take_half": False, "time_stop_days": 0}
+    p = pos()
+    assert process_bar(p, "d1", bar(105, 115, 104, 112), 105, sw) == []     # target reached, nothing sold
+    assert p["half_done"] and p["stop"] == 100.0 and p["qty_open"] == 10
+    q = pos()
+    for k in range(40):
+        process_bar(q, f"d{k}", bar(101, 103, 99, 102), 100, sw)
+    assert q["pending_exit"] is None                                          # no time stop

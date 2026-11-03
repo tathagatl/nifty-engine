@@ -230,17 +230,21 @@ def process_bar(pos: dict, date: str, bar: dict, sma_trail: float, sw: dict,
     if h >= pos["entry_price"] + sw["time_stop_r"] * pos["r"]:
         pos["reached_1r"] = True
 
+    # half_done means "target reached": the stop moves to breakeven and the trailing exit
+    # takes over; with take_half off, nothing is sold at the target.
     if not pos["half_done"] and h >= pos["target"]:
-        half = pos["qty_open"] // 2 or pos["qty_open"]
-        price = pos["target"] if entry_day else max(o, pos["target"])
-        fills.append(_fill(pos, date, half, price, "target +2R (half)"))
+        if sw.get("take_half", True):
+            half = pos["qty_open"] // 2 or pos["qty_open"]
+            price = pos["target"] if entry_day else max(o, pos["target"])
+            fills.append(_fill(pos, date, half, price, "target +2R (half)"))
         pos["half_done"] = True
         pos["stop"] = max(pos["stop"], pos["entry_price"])
         if pos["qty_open"] == 0:
             return fills
 
+    time_stop = sw["time_stop_days"]
     if pos["half_done"] and not math.isnan(sma_trail) and c < sma_trail:
         pos["pending_exit"] = f"close below {sw['trail_sma']}-day average"
-    elif not pos["reached_1r"] and pos["bars_held"] >= sw["time_stop_days"]:
-        pos["pending_exit"] = f"time stop ({sw['time_stop_days']} days without +1R)"
+    elif time_stop and not pos["reached_1r"] and pos["bars_held"] >= time_stop:
+        pos["pending_exit"] = f"time stop ({time_stop} days without +1R)"
     return fills
