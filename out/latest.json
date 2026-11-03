@@ -1,0 +1,29 @@
+{
+  "as_of": "2026-11-02",
+  "mode": "paper",
+  "market": {
+    "ok": false,
+    "close": 23440.80078125,
+    "fast": 23241.99890625,
+    "slow": 24027.65173828125
+  },
+  "breakers": {
+    "entries_allowed": true,
+    "reasons": [],
+    "month_pnl": 0,
+    "equity": 40000
+  },
+  "action_required": false,
+  "actions": [],
+  "signals": [],
+  "passed_over": [],
+  "opened": [],
+  "exits": [],
+  "skipped": [],
+  "positions": [],
+  "stats": {
+    "trades": 0
+  },
+  "generated_at": "2026-11-03T18:40:07.404075+00:00",
+  "universe_size": 475
+}
