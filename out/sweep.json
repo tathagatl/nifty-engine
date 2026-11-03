@@ -1,0 +1,306 @@
+{
+  "v1 baseline": {
+    "overrides": {},
+    "all": {
+      "trades": 53,
+      "win_rate": 0.358,
+      "avg_r": -0.09,
+      "expectancy_rs": -71.53,
+      "profit_factor": 0.84,
+      "net": -3790.88,
+      "avg_win": 1044.38,
+      "avg_loss": -695.12
+    },
+    "in_sample": {
+      "trades": 32,
+      "win_rate": 0.406,
+      "avg_r": -0.01,
+      "expectancy_rs": 11.55,
+      "profit_factor": 1.03,
+      "net": 369.46,
+      "avg_win": 1105.16,
+      "avg_loss": -736.71
+    },
+    "out_of_sample": {
+      "trades": 21,
+      "win_rate": 0.286,
+      "avg_r": -0.21,
+      "expectancy_rs": -198.11,
+      "profit_factor": 0.57,
+      "net": -4160.34,
+      "avg_win": 912.71,
+      "avg_loss": -642.44
+    },
+    "cagr": -0.0111,
+    "max_drawdown": -0.1789,
+    "years": 8.95
+  },
+  "time stop 30 days": {
+    "overrides": {
+      "time_stop_days": 30
+    },
+    "all": {
+      "trades": 47,
+      "win_rate": 0.319,
+      "avg_r": -0.08,
+      "expectancy_rs": -71.13,
+      "profit_factor": 0.88,
+      "net": -3343.04,
+      "avg_win": 1638.68,
+      "avg_loss": -872.6
+    },
+    "in_sample": {
+      "trades": 29,
+      "win_rate": 0.345,
+      "avg_r": -0.13,
+      "expectancy_rs": -101.22,
+      "profit_factor": 0.83,
+      "net": -2935.29,
+      "avg_win": 1413.22,
+      "avg_loss": -898.29
+    },
+    "out_of_sample": {
+      "trades": 18,
+      "win_rate": 0.278,
+      "avg_r": 0.02,
+      "expectancy_rs": -22.65,
+      "profit_factor": 0.96,
+      "net": -407.75,
+      "avg_win": 2089.6,
+      "avg_loss": -835.06
+    },
+    "cagr": -0.0097,
+    "max_drawdown": -0.213,
+    "years": 8.95
+  },
+  "no time stop": {
+    "overrides": {
+      "time_stop_days": 0
+    },
+    "all": {
+      "trades": 41,
+      "win_rate": 0.293,
+      "avg_r": -0.15,
+      "expectancy_rs": -161.53,
+      "profit_factor": 0.79,
+      "net": -6622.73,
+      "avg_win": 2062.61,
+      "avg_loss": -1081.87
+    },
+    "in_sample": {
+      "trades": 26,
+      "win_rate": 0.308,
+      "avg_r": -0.13,
+      "expectancy_rs": -93.52,
+      "profit_factor": 0.87,
+      "net": -2431.44,
+      "avg_win": 2039.94,
+      "avg_loss": -1041.72
+    },
+    "out_of_sample": {
+      "trades": 15,
+      "win_rate": 0.267,
+      "avg_r": -0.2,
+      "expectancy_rs": -279.42,
+      "profit_factor": 0.67,
+      "net": -4191.29,
+      "avg_win": 2107.96,
+      "avg_loss": -1147.56
+    },
+    "cagr": -0.02,
+    "max_drawdown": -0.2494,
+    "years": 8.95
+  },
+  "trail on 50-day": {
+    "overrides": {
+      "trail_sma": 50
+    },
+    "all": {
+      "trades": 55,
+      "win_rate": 0.327,
+      "avg_r": -0.04,
+      "expectancy_rs": -12.71,
+      "profit_factor": 0.97,
+      "net": -699.29,
+      "avg_win": 1378.2,
+      "avg_loss": -689.37
+    },
+    "in_sample": {
+      "trades": 32,
+      "win_rate": 0.375,
+      "avg_r": 0.13,
+      "expectancy_rs": 175.09,
+      "profit_factor": 1.4,
+      "net": 5602.84,
+      "avg_win": 1642.61,
+      "avg_loss": -705.43
+    },
+    "out_of_sample": {
+      "trades": 23,
+      "win_rate": 0.261,
+      "avg_r": -0.28,
+      "expectancy_rs": -274.01,
+      "profit_factor": 0.45,
+      "net": -6302.13,
+      "avg_win": 849.36,
+      "avg_loss": -670.49
+    },
+    "cagr": -0.002,
+    "max_drawdown": -0.1995,
+    "years": 8.95
+  },
+  "no half at +2R": {
+    "overrides": {
+      "take_half": false
+    },
+    "all": {
+      "trades": 53,
+      "win_rate": 0.358,
+      "avg_r": -0.1,
+      "expectancy_rs": -68.89,
+      "profit_factor": 0.85,
+      "net": -3651.3,
+      "avg_win": 1048.29,
+      "avg_loss": -693.2
+    },
+    "in_sample": {
+      "trades": 31,
+      "win_rate": 0.419,
+      "avg_r": -0.0,
+      "expectancy_rs": 39.21,
+      "profit_factor": 1.09,
+      "net": 1215.61,
+      "avg_win": 1084.86,
+      "avg_loss": -715.97
+    },
+    "out_of_sample": {
+      "trades": 22,
+      "win_rate": 0.273,
+      "avg_r": -0.23,
+      "expectancy_rs": -221.22,
+      "profit_factor": 0.54,
+      "net": -4866.91,
+      "avg_win": 969.06,
+      "avg_loss": -667.58
+    },
+    "cagr": -0.0106,
+    "max_drawdown": -0.1991,
+    "years": 8.95
+  },
+  "volume 1.3x": {
+    "overrides": {
+      "volume_multiple": 1.3
+    },
+    "all": {
+      "trades": 69,
+      "win_rate": 0.377,
+      "avg_r": -0.05,
+      "expectancy_rs": -28.33,
+      "profit_factor": 0.94,
+      "net": -1954.85,
+      "avg_win": 1082.41,
+      "avg_loss": -699.94
+    },
+    "in_sample": {
+      "trades": 40,
+      "win_rate": 0.425,
+      "avg_r": 0.07,
+      "expectancy_rs": 101.1,
+      "profit_factor": 1.26,
+      "net": 4044.08,
+      "avg_win": 1151.94,
+      "avg_loss": -675.6
+    },
+    "out_of_sample": {
+      "trades": 29,
+      "win_rate": 0.31,
+      "avg_r": -0.22,
+      "expectancy_rs": -206.86,
+      "profit_factor": 0.59,
+      "net": -5998.93,
+      "avg_win": 951.09,
+      "avg_loss": -727.94
+    },
+    "cagr": -0.0056,
+    "max_drawdown": -0.2324,
+    "years": 8.95
+  },
+  "stop up to 10%": {
+    "overrides": {
+      "max_stop_pct": 0.1
+    },
+    "all": {
+      "trades": 112,
+      "win_rate": 0.491,
+      "avg_r": 0.12,
+      "expectancy_rs": 119.81,
+      "profit_factor": 1.38,
+      "net": 13418.91,
+      "avg_win": 894.0,
+      "avg_loss": -627.21
+    },
+    "in_sample": {
+      "trades": 70,
+      "win_rate": 0.443,
+      "avg_r": -0.01,
+      "expectancy_rs": -16.72,
+      "profit_factor": 0.95,
+      "net": -1170.69,
+      "avg_win": 775.21,
+      "avg_loss": -646.21
+    },
+    "out_of_sample": {
+      "trades": 42,
+      "win_rate": 0.571,
+      "avg_r": 0.35,
+      "expectancy_rs": 347.37,
+      "profit_factor": 2.38,
+      "net": 14589.6,
+      "avg_win": 1047.44,
+      "avg_loss": -586.05
+    },
+    "cagr": 0.0329,
+    "max_drawdown": -0.1721,
+    "years": 8.95
+  },
+  "trend follower": {
+    "overrides": {
+      "time_stop_days": 0,
+      "trail_sma": 50,
+      "take_half": false
+    },
+    "all": {
+      "trades": 43,
+      "win_rate": 0.279,
+      "avg_r": 0.18,
+      "expectancy_rs": 243.99,
+      "profit_factor": 1.33,
+      "net": 10491.39,
+      "avg_win": 3522.63,
+      "avg_loss": -1025.17
+    },
+    "in_sample": {
+      "trades": 26,
+      "win_rate": 0.308,
+      "avg_r": 0.35,
+      "expectancy_rs": 455.96,
+      "profit_factor": 1.64,
+      "net": 11854.86,
+      "avg_win": 3794.76,
+      "avg_loss": -1027.96
+    },
+    "out_of_sample": {
+      "trades": 17,
+      "win_rate": 0.235,
+      "avg_r": -0.09,
+      "expectancy_rs": -80.2,
+      "profit_factor": 0.9,
+      "net": -1363.47,
+      "avg_win": 2978.36,
+      "avg_loss": -1021.3
+    },
+    "cagr": 0.0264,
+    "max_drawdown": -0.2428,
+    "years": 8.95
+  }
+}
