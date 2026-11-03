@@ -1,0 +1,49 @@
+# Trading Rulebook v1 — every number the engine uses lives here.
+# Change a threshold here, commit, and the next run uses it.
+
+[capital]
+total = 100000
+core = 60000
+swing = 40000
+
+[swing]
+# "paper": the engine fills and exits trades itself on end-of-day data.
+# "live":  positions come from your real Kite account (Claude reconciles them each morning).
+mode = "paper"
+risk_per_trade = 1000          # rupees risked per trade (1% of total capital)
+max_position_value = 15000     # cap on rupees in one swing position
+max_open_trades = 3
+max_per_sector = 2
+
+# Trend template
+near_high_pct = 0.25           # price within 25% of 52-week high
+above_low_pct = 0.30           # price at least 30% above 52-week low
+sma200_rising_days = 20        # 200-day average higher than 20 trading days ago
+rs_min_pct = 0.70              # 6-month return in top 30% of the universe
+min_adv_rs = 100000000         # average daily traded value >= Rs 10 crore
+
+# Base and breakout
+min_base_days = 15
+max_base_days = 60
+max_base_depth = 0.15          # high-to-low range of the base
+volume_multiple = 1.5          # breakout volume vs 50-day average
+
+# Stops, entries, exits
+stop_buffer = 0.005            # stop sits 0.5% below the base low
+max_stop_pct = 0.08            # skip if the stop is more than 8% below entry
+max_gap_pct = 0.03             # skip if it opens more than 3% above the signal close
+target_r = 2.0                 # sell half at +2R
+trail_sma = 20                 # exit the rest on a close below this average
+time_stop_days = 15            # exit if +1R isn't reached within this many trading days
+time_stop_r = 1.0
+
+[breakers]
+losing_streak = 3              # consecutive losing trades
+pause_days = 5                 # trading days without new entries after a streak
+monthly_loss = 4000            # rupees of closed swing losses in a calendar month
+swing_floor = 32000            # stop swing trading if the bucket falls to this
+
+[market]
+index = "^NSEI"                # Nifty 50 on Yahoo Finance
+fast_sma = 50
+slow_sma = 200
