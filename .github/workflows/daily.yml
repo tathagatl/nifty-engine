@@ -1,8 +1,19 @@
 name: daily-engine
 
+# GitHub can start scheduled runs late (the first one ran 7 hours late), and Yahoo
+# sometimes publishes the Nifty bar late. Runs are idempotent: a run with no new
+# trading day changes nothing. So the engine runs three times per trading day:
 on:
   schedule:
-    - cron: "40 11 * * 1-5"      # 17:10 IST, Monday to Friday (GitHub cron is UTC)
+    - cron: "40 11 * * 1-5"      # 17:10 IST, Mon-Fri: main run after the close
+    - cron: "10 14 * * 1-5"      # 19:40 IST, Mon-Fri: catch-up
+    - cron: "10 2 * * 2-6"       # 07:40 IST, Tue-Sat: catch-up before the 08:20 brief
+  push:
+    branches: [main]
+    paths:
+      - "engine/**"
+      - run_daily.py
+      - .github/workflows/daily.yml
   workflow_dispatch:
 
 permissions:
@@ -18,6 +29,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main                # latest state, not the commit that queued this run
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -25,7 +38,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Tests
         run: python -m pytest -q tests
-      - name: Run the rulebook on today's close
+      - name: Run the rulebook on the latest close
         run: python run_daily.py
       - name: Commit results
         run: |

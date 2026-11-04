@@ -108,3 +108,31 @@ def download_index(ticker: str, period: str = "2y") -> pd.DataFrame:
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = raw.columns.get_level_values(0)
     return _normalise(raw)
+
+
+def latest_session(prices: dict[str, pd.DataFrame], share: float = 0.8) -> pd.Timestamp | None:
+    """Most recent date that at least `share` of the stocks have a bar for."""
+    if not prices:
+        return None
+    counts = pd.Series([d for df in prices.values() for d in df.index[-5:]]).value_counts()
+    ok = counts[counts >= share * len(prices)]
+    return ok.index.max() if len(ok) else None
+
+
+def fill_index_gap(idx: pd.DataFrame, session: pd.Timestamp | None,
+                   proxy: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
+    """Yahoo sometimes publishes ^NSEI's daily bar hours after the stocks'. Extend the
+    index to `session` with a Nifty 50 ETF's daily moves, scaled to the index level.
+    Only the close feeds the market filter."""
+    if session is None or idx.empty or idx.index[-1] >= session:
+        return idx, []
+    base = idx.index[-1]
+    if base not in proxy.index:
+        return idx, []
+    add = proxy[(proxy.index > base) & (proxy.index <= session)]
+    if add.empty:
+        return idx, []
+    close = add["close"] * (idx.at[base, "close"] / proxy.at[base, "close"])
+    rows = pd.DataFrame({"open": close, "high": close, "low": close, "close": close,
+                         "volume": 0.0}, index=add.index)
+    return pd.concat([idx, rows]), [d.strftime("%Y-%m-%d") for d in add.index]

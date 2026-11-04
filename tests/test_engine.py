@@ -247,3 +247,26 @@ def test_no_half_variant_and_disabled_time_stop():
     for k in range(40):
         process_bar(q, f"d{k}", bar(101, 103, 99, 102), 100, sw)
     assert q["pending_exit"] is None                                          # no time stop
+
+
+def test_index_gap_filled_from_etf_moves():
+    from engine.data import fill_index_gap, latest_session
+    stocks = {s: frame(np.linspace(100, 110, 30), start="2026-10-01") for s in "ABCDE"}
+    idx = frame(np.linspace(23000, 23440.8, 30), start="2026-10-01").iloc[:-1]       # index one bar short
+    etf = frame(np.linspace(230, 260, 30), start="2026-10-01")
+    session = latest_session(stocks)
+    assert session == stocks["A"].index[-1] and idx.index[-1] < session
+    out, filled = fill_index_gap(idx, session, etf)
+    assert filled == [session.strftime("%Y-%m-%d")] and out.index[-1] == session
+    base = idx.index[-1]
+    expect = idx.at[base, "close"] * etf.at[session, "close"] / etf.at[base, "close"]
+    assert out.at[session, "close"] == pytest.approx(expect)
+    same, none = fill_index_gap(out, session, etf)                                      # already complete
+    assert none == [] and len(same) == len(out)
+
+
+def test_latest_session_ignores_a_few_early_stocks():
+    from engine.data import latest_session
+    stocks = {s: frame(np.ones(10) * 100, start="2026-10-01") for s in "ABCDEFGHIJ"}
+    stocks["A"] = frame(np.ones(11) * 100, start="2026-10-01")                         # one stock a day ahead
+    assert latest_session(stocks) == stocks["B"].index[-1]
