@@ -6,13 +6,13 @@ Runs **Trading Rulebook v1** (swing side) on Nifty 500 end-of-day data. It doesn
 
 | When (IST) | What | Where |
 | --- | --- | --- |
-| Weekdays 17:10 | Download Nifty 500 prices, apply the rules, commit `out/` and `state/` | GitHub Actions (`daily.yml`) |
-| Weekdays 08:20 | Read `out/latest.json`, check Kite, research candidates, notify you if action is needed | Claude scheduled task |
+| Weekdays 19:10 and 22:10 | Download prices, apply the rules, commit `out/` and `state/` | GitHub Actions (`daily.yml`), often hours late |
+| Weekdays 08:20 | If the data is behind, push `trigger/run.txt` (starts the engine at once) and wait; then read `out/latest.json`, check Kite, research candidates, notify you if action is needed | Claude scheduled task |
 | Saturday | Core-portfolio screen and research notes | Claude scheduled task |
 | Month end | Performance review against the rulebook | Claude scheduled task |
 | On change to rules or config | Re-run the backtest, commit `out/backtest.md` | GitHub Actions (`backtest.yml`) |
 
-Data is free (Yahoo Finance via `yfinance`, NSE index list). Kite's free API has no price history, so Kite is only used through Claude to read holdings and GTTs.
+Data is free. History comes from Yahoo Finance (`yfinance`, split-adjusted), but Yahoo often adds an NSE daily bar only the next day, so newer sessions come from NSE's own end-of-day files (equity bhavcopy and `ind_close_all`, out around 18:00 IST). If NSE's previous close disagrees with Yahoo's last close by more than 1%, a split or bonus went ex that day and the history is rescaled to match. A day is processed only once most stocks have a bar for it. Kite's free API has no price history, so Kite is only used through Claude to read holdings and GTTs.
 
 ## Modes
 

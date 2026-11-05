@@ -1,16 +1,18 @@
 name: daily-engine
 
-# GitHub can start scheduled runs late (the first one ran 7 hours late), and Yahoo
-# sometimes publishes the Nifty bar late. Runs are idempotent: a run with no new
-# trading day changes nothing. So the engine runs three times per trading day:
+# Runs are idempotent: a run with no new trading day changes nothing.
+# GitHub has been starting this repo's scheduled runs about 7 hours late, so the
+# crons are only a backup. The reliable trigger is the 08:20 IST morning brief,
+# which pushes trigger/run.txt when the data is behind; push runs start at once.
+# NSE's end-of-day files appear around 18:00 IST, so evening runs come after that.
 on:
   schedule:
-    - cron: "40 11 * * 1-5"      # 17:10 IST, Mon-Fri: main run after the close
-    - cron: "10 14 * * 1-5"      # 19:40 IST, Mon-Fri: catch-up
-    - cron: "10 2 * * 2-6"       # 07:40 IST, Tue-Sat: catch-up before the 08:20 brief
+    - cron: "40 13 * * 1-5"      # 19:10 IST, Mon-Fri
+    - cron: "40 16 * * 1-5"      # 22:10 IST, Mon-Fri
   push:
     branches: [main]
     paths:
+      - "trigger/**"
       - "engine/**"
       - run_daily.py
       - .github/workflows/daily.yml

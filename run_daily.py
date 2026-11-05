@@ -11,8 +11,9 @@ from datetime import datetime, timezone
 
 from engine.config import ROOT, load_config
 from engine.daily import daily_step
-from engine.data import (download_index, download_prices, drop_unfinished_day, fill_index_gap,
+from engine.data import (IST, download_index, download_prices, drop_unfinished_day, fill_index_gap,
                          latest_session, load_universe)
+from engine.nse import append_nse_days
 from engine.portfolio import Book
 from engine.report import build_markdown
 from engine.rules import add_indicators, market_filter, rs_percentiles
@@ -39,18 +40,33 @@ def main() -> int:
         return 1
 
     idx, prices = drop_unfinished_day(idx, prices)
+    yahoo_stock_end, yahoo_index_end = latest_session(prices), idx.index[-1]
+
+    # Sessions Yahoo hasn't published yet come from NSE's own end-of-day files.
+    nse_days, nse_notes = [], []
+    try:
+        idx, prices, nse_days, nse_notes = append_nse_days(idx, prices, datetime.now(IST))
+    except Exception as exc:  # noqa: BLE001 - Yahoo data alone still works, a day later
+        nse_notes = [f"NSE files unavailable: {exc}"]
+    for n in nse_notes:
+        print(n)
+
     session = latest_session(prices)
     index_real_end = idx.index[-1]
     filled: list[str] = []
     if session is not None and index_real_end < session:
-        print(f"^NSEI ends {ymd(index_real_end)} but stocks have {ymd(session)}: filling from {INDEX_PROXY}")
+        print(f"Nifty data ends {ymd(index_real_end)} but stocks have {ymd(session)}: filling from {INDEX_PROXY}")
         try:
             proxy, _ = drop_unfinished_day(download_index(INDEX_PROXY), {})
             idx, filled = fill_index_gap(idx, session, proxy)
         except Exception as exc:  # noqa: BLE001 - the next run catches up anyway
             print(f"index fill failed: {exc}")
+    # Never process a day most stocks have no bar for: it would be skipped for good.
+    if session is not None:
+        idx = idx[idx.index <= session]
     data_info = {"latest_stock_date": ymd(session), "index_last_real": ymd(index_real_end),
-                 "index_filled_from_etf": filled}
+                 "yahoo_stock_end": ymd(yahoo_stock_end), "yahoo_index_end": ymd(yahoo_index_end),
+                 "nse_days_added": nse_days, "index_filled_from_etf": filled}
     mk = market_filter(idx, cfg.market["fast_sma"], cfg.market["slow_sma"])
 
     ind = {s: add_indicators(df, sw) for s, df in prices.items()}

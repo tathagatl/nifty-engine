@@ -270,3 +270,54 @@ def test_latest_session_ignores_a_few_early_stocks():
     stocks = {s: frame(np.ones(10) * 100, start="2026-10-01") for s in "ABCDEFGHIJ"}
     stocks["A"] = frame(np.ones(11) * 100, start="2026-10-01")                         # one stock a day ahead
     assert latest_session(stocks) == stocks["B"].index[-1]
+
+
+# ---------------------------------------------------------------- NSE end-of-day files
+
+def _nse_world():
+    from datetime import datetime
+    from engine.data import IST
+    days = pd.bdate_range("2026-10-01", "2026-11-04")
+    yahoo = {s: frame(np.linspace(100, 120, len(days) - 1), start="2026-10-01") for s in ["AAA", "BBB", "CCC"]}
+    idx = frame(np.linspace(23000, 23440.8, len(days) - 1), start="2026-10-01")
+    last_day = days[-1]                                        # Yahoo lacks 2026-11-04
+    bhav = pd.DataFrame({"open": [121, 61, 50.0], "high": [123, 62, 51.0], "low": [120, 60, 49.0],
+                         "close": [122, 61.5, 50.5], "prev_close": [120, 60, 120.0],
+                         "volume": [5e5, 6e5, 7e5]}, index=["AAA", "BBB", "CCC"])
+    now = datetime(2026, 11, 5, 8, 20, tzinfo=IST)
+    return yahoo, idx, last_day, bhav, now
+
+
+def test_nse_appends_missing_session_and_rescales_split():
+    from engine.nse import append_nse_days
+    yahoo, idx, d, bhav, now = _nse_world()
+    calls = []
+
+    def fb(day):
+        calls.append(day)
+        return bhav if day == d else None
+
+    out_idx, out, added, notes = append_nse_days(
+        idx, yahoo, now, fetch_bhav=fb,
+        fetch_index=lambda day: {"open": 23500, "high": 23900, "low": 23450, "close": 23810.85, "volume": 0.0})
+    assert added == ["2026-11-04"] and calls == [d]
+    assert out["AAA"].index[-1] == d and out["AAA"].at[d, "close"] == 122
+    # BBB: NSE prev close 60 vs Yahoo 120 -> 1:2 split went ex; history halved, volume doubled
+    assert out["BBB"]["close"].iloc[-2] == pytest.approx(60.0)
+    assert out["BBB"]["volume"].iloc[-2] == pytest.approx(2_000_000)
+    assert any("BBB" in n and "rescaled" in n for n in notes)
+    assert out["CCC"].at[d, "close"] == 50.5 and out["CCC"]["close"].iloc[-2] == pytest.approx(120)
+    assert out_idx.index[-1] == d and out_idx.at[d, "close"] == 23810.85
+
+
+def test_nse_skips_unpublished_days_and_today_before_6pm():
+    from datetime import datetime
+    from engine.data import IST
+    from engine.nse import append_nse_days, candidate_days
+    yahoo, idx, d, _, now = _nse_world()
+    out_idx, out, added, _ = append_nse_days(idx, yahoo, now, fetch_bhav=lambda day: None,
+                                             fetch_index=lambda day: None)
+    assert added == [] and out["AAA"].index[-1] < d and out_idx.index[-1] < d
+    before = candidate_days(pd.Timestamp("2026-11-03"), datetime(2026, 11, 4, 17, 0, tzinfo=IST))
+    after = candidate_days(pd.Timestamp("2026-11-03"), datetime(2026, 11, 4, 19, 0, tzinfo=IST))
+    assert before == [] and after == [pd.Timestamp("2026-11-04")]
