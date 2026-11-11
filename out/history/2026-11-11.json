@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-11-11",
+  "mode": "paper",
+  "market": {
+    "ok": false,
+    "close": 25255.05,
+    "fast": 23288.0398671875,
+    "slow": 23993.628980468748
+  },
+  "breakers": {
+    "entries_allowed": true,
+    "reasons": [],
+    "month_pnl": 0,
+    "equity": 40000
+  },
+  "action_required": false,
+  "actions": [],
+  "signals": [],
+  "passed_over": [],
+  "opened": [],
+  "exits": [],
+  "skipped": [],
+  "positions": [],
+  "stats": {
+    "trades": 0
+  },
+  "generated_at": "2026-11-11T23:04:12.498275+00:00",
+  "universe_size": 477,
+  "data": {
+    "latest_stock_date": "2026-11-11",
+    "index_last_real": "2026-11-11",
+    "yahoo_stock_end": "2026-11-09",
+    "yahoo_index_end": "2026-11-09",
+    "nse_days_added": [
+      "2026-11-11"
+    ],
+    "index_filled_from_etf": []
+  }
+}
