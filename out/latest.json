@@ -1,11 +1,11 @@
 {
-  "as_of": "2026-11-12",
+  "as_of": "2026-11-13",
   "mode": "paper",
   "market": {
     "ok": false,
-    "close": 25299.35,
-    "fast": 23310.513875,
-    "slow": 23992.198234375
+    "close": 25144.3,
+    "fast": 23331.791859375,
+    "slow": 23991.757232421875
   },
   "breakers": {
     "entries_allowed": true,
@@ -24,15 +24,15 @@
   "stats": {
     "trades": 0
   },
-  "generated_at": "2026-11-12T21:04:35.876675+00:00",
+  "generated_at": "2026-11-13T20:39:24.801351+00:00",
   "universe_size": 477,
   "data": {
-    "latest_stock_date": "2026-11-12",
-    "index_last_real": "2026-11-12",
-    "yahoo_stock_end": "2026-11-11",
-    "yahoo_index_end": "2026-11-11",
+    "latest_stock_date": "2026-11-13",
+    "index_last_real": "2026-11-13",
+    "yahoo_stock_end": "2026-11-12",
+    "yahoo_index_end": "2026-11-12",
     "nse_days_added": [
-      "2026-11-12"
+      "2026-11-13"
     ],
     "index_filled_from_etf": []
   }
