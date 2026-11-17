@@ -1,6 +1,6 @@
-# Swing engine · 2026-11-16 · PAPER
+# Swing engine · 2026-11-17 · PAPER
 
-**Market filter:** OFF (Nifty 50 25,291, 50-day 23,356, 200-day 23,992)
+**Market filter:** OFF (Nifty 50 25,387, 50-day 23,386, 200-day 23,993)
 **New entries:** blocked (market filter off)
 **Swing bucket:** ₹40,000 · this month ₹0
 
