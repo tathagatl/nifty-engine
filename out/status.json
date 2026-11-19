@@ -1,14 +1,15 @@
 {
-  "as_of": "2026-11-18",
+  "as_of": "2026-11-19",
   "action_required": false,
-  "note": "no new trading day",
-  "checked_at": "2026-11-18T23:08:42.179793+00:00",
-  "latest_stock_date": "2026-11-18",
-  "index_last_real": "2026-11-18",
-  "yahoo_stock_end": "2026-11-17",
-  "yahoo_index_end": "2026-11-17",
+  "signals": 0,
+  "open_positions": 0,
+  "checked_at": "2026-11-19T21:46:23.245074+00:00",
+  "latest_stock_date": "2026-11-19",
+  "index_last_real": "2026-11-19",
+  "yahoo_stock_end": "2026-11-18",
+  "yahoo_index_end": "2026-11-18",
   "nse_days_added": [
-    "2026-11-18"
+    "2026-11-19"
   ],
   "index_filled_from_etf": []
 }
