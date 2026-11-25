@@ -1,12 +1,15 @@
 {
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-25",
   "action_required": false,
-  "note": "no new trading day",
-  "checked_at": "2026-11-25T01:04:52.271622+00:00",
-  "latest_stock_date": "2026-11-23",
-  "index_last_real": "2026-11-23",
+  "signals": 0,
+  "open_positions": 0,
+  "checked_at": "2026-11-25T22:42:51.161139+00:00",
+  "latest_stock_date": "2026-11-25",
+  "index_last_real": "2026-11-25",
   "yahoo_stock_end": "2026-11-23",
   "yahoo_index_end": "2026-11-23",
-  "nse_days_added": [],
+  "nse_days_added": [
+    "2026-11-25"
+  ],
   "index_filled_from_etf": []
 }
