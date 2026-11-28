@@ -1,9 +1,8 @@
 {
   "as_of": "2026-11-27",
   "action_required": false,
-  "signals": 0,
-  "open_positions": 0,
-  "checked_at": "2026-11-27T22:18:49.936753+00:00",
+  "note": "no new trading day",
+  "checked_at": "2026-11-28T00:15:24.767328+00:00",
   "latest_stock_date": "2026-11-27",
   "index_last_real": "2026-11-27",
   "yahoo_stock_end": "2026-11-26",
